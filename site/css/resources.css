@@ -11,8 +11,8 @@ body {
   }
   
   header {
-    background: darkblue;
-    color: yellowgreen;
+    background: rgb(1, 118, 186);
+    color: white;
     padding: 1rem;
     text-align: center;
   }
@@ -33,13 +33,13 @@ body {
   
   nav ul li a:hover {
     text-decoration: underline;
-    background-color:greenyellow;
-    border:2px solid goldenrod;
+    background-color:red;
+    border:2px solid white;
     border-radius: 10px;
     cursor:pointer;
     transition: 0.5s;
     padding:5px 10px;
-    color:darkblue;
+    color:white;
   }
   .big-box{
     min-height: 100%;
@@ -59,12 +59,12 @@ body {
     font-weight: bold;
   }
   a:hover{
-    color:darkblue;
+    color:rgb(1, 118, 186);
     cursor: pointer;
   }
   footer {
-    background: darkblue;
-    color: yellowgreen;
+    background: rgb(1, 118, 186);
+    color: white;
     text-align: center;
     padding: 1rem;
     margin-top: 2rem;
@@ -91,4 +91,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 20px;
+  }
+  h2{
+    text-align: center;
   }
