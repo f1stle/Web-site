@@ -4,11 +4,12 @@ body {
     padding: 0;
     background: #f4f4f4;
     color: black;
+
   }
   
   header {
-    background: darkblue;
-    color: greenyellow;
+    background: rgb(1, 118, 186);
+    color: white;
     padding: 1rem;
     text-align: center;
     position: sticky;
@@ -31,13 +32,13 @@ body {
   }
   
   nav ul li a:hover {
-    background-color:greenyellow;
-    border:2px solid goldenrod;
+    background-color:red;
+    border:2px solid white;
     border-radius: 10px;
     cursor:pointer;
     transition: 0.5s;
     padding:5px 10px;
-    color:darkblue;
+    color:white;
     text-decoration: underline;
   }
   
@@ -48,8 +49,8 @@ body {
   }
   
   footer {
-    background: darkblue;
-    color: greenyellow;
+    background: rgb(1, 118, 186);
+    color: white;
     text-align: center;
     padding: 1rem;
     margin-top: 2rem;
@@ -62,51 +63,31 @@ body {
   width: 50px;
   float:left;
 }
-.box-content{
+.big-box{
   display: grid;
-  grid-template-columns: repeat(2,1fr);
-  justify-content: center;
+  grid-column: repeat(3,1fr);
 }
-.content{
-  border:2px solid black;
+.box-content{
+  border:2px solid rgb(1, 118, 186);
   margin:10px 10px;
-  position: relative;
 }
-.box-img{
-  border-bottom:2px solid black;
+.box-content3{
+  border:2px solid rgb(1, 118, 186);
+  margin:10px 10px;
+  grid-column: 1 / 3;
 }
-.img{
-  width: 410px;
-  height: 210px;
-}
-a{
-  text-decoration: none;
-  color:black;
-}
-.box-name{
+
+.box-news{
   text-align: center;
+  border-bottom:2px solid rgb(1, 118, 186);
 }
-.read-more{
-  position: absolute;
-  right: 2px;
-  bottom: 2px;
-  background-color: greenyellow;
-  color:darkblue;
-  border:2px solid black;
-  border-radius: 5px;
-  padding:5px 5px;
+.photo{
+  width: 35%;
+  padding:10px 10px;
+ border-radius: 10%;
 }
-.read-more:hover{
-  cursor: pointer;
-  background-color: darkblue;
-  color:greenyellow;
-  border:2px solid greenyellow;
-  border-radius: 5px;
-  padding:5px 5px;
-  transition: 0.5s;
-}
-a:hover{
-  cursor: pointer;
-  color:blue;
-  transition: 0.5s;
+.photo2{
+  width: 90%;
+  padding:10px 10px;
+  border-radius: 10%;
 }
