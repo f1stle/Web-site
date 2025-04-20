@@ -7,11 +7,11 @@ body {
   }
   
   header {
-    background: darkblue;
-    color: greenyellow;
+    background: rgb(1, 118, 186);
+    color: white;
     padding: 1rem;
     text-align: center;
-    border-bottom: 2px solid greenyellow;
+    border-bottom: 2px solid white;
     position: sticky;
     top:0;
     z-index: 100;
@@ -42,8 +42,8 @@ body {
   }
   
   footer {
-    background: darkblue;
-    color: greenyellow;
+    background: rgb(1, 118, 186);
+    color: white;
     text-align: center;
     padding: 1rem;
     margin-top: 2rem;
@@ -75,19 +75,26 @@ body {
   border:2px solid greenyellow;
   transition: 0.5s;
 }
+.min-banner{
+  text-align: center;
+}
+.box-content{
+ display: flex;
+}
+.box-txt{
+  float: right;
+  flex: 1;
+  font-size: 15px;
+}
 .box-img{
-  width: 100%;
-  height: 100%;
+  margin-top: 10px;
+  float: left;
+  padding-right: 10px;
+  flex: 1;
 }
 .img{
   border-radius: 3%;
   width: 100%;
-  height: 100%;
-}
-.box-txt{
-  font-size: 100%;
-  font-family: Arial, Helvetica, sans-serif;
-  padding:5px;
 }
 .logo{
   border-radius: 10px;
@@ -95,12 +102,30 @@ body {
   float:left;
 }
 nav ul li a:hover{
-  background-color:greenyellow;
-  border:2px solid goldenrod;
+  background-color:red;
+  border:2px solid white;
   border-radius: 10px;
   cursor:pointer;
   transition: 0.5s;
   padding:5px 10px;
   color:darkblue;
   text-decoration: none;
+}
+.box-img2{
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+.photo{
+  width: 30%;
+  padding:10px 10px;
+ border-radius: 10%;
+}
+.photo2{
+  width: 100%;
+}
+.box-txt2{
+ padding-left:15%;
+ padding-right:15%;
 }
