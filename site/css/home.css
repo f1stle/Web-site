@@ -7,8 +7,8 @@ body {
   }
   
   header {
-    background: darkblue;
-    color: greenyellow;
+    background: rgb(1, 118, 186);
+    color: white;
     padding: 1rem;
     text-align: center;
     position: sticky;
@@ -30,13 +30,13 @@ body {
     text-decoration: none;
   }
   nav ul li a:hover{
-    background-color:greenyellow;
-    border:2px solid goldenrod;
+    background-color:red;
+    border:2px solid white;
     border-radius: 10px;
     cursor:pointer;
     transition: 0.5s;
     padding:5px 10px;
-    color:darkblue;
+    color:white;
     text-decoration: none;
   }
   
@@ -51,8 +51,8 @@ body {
   }
   
   footer {
-    background: darkblue;
-    color: greenyellow;
+    background: rgb(1, 118, 186);
+    color: white;
     text-align: center;
     padding: 1rem;
     margin-top: 2rem;
@@ -87,10 +87,10 @@ h3{
   text-align: center;
 }
 .intro{
-  background-image: url('../src/Tema.jpg');
+  background-image: url('../src/prog.jpg');
   background-size: cover; 
   background-position: center; 
-  height: 100vh; 
+  height: 50vh; 
   display: flex; 
   align-items: center;
   justify-content: center;
@@ -123,12 +123,9 @@ h3{
   border-radius: 20px;
   padding:10px 10px;
 }
-.box-about{
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-}
+
 .box-img{
-  margin-top:50%;
+  margin-top:10px
 }
 .box-video{
   display: flex;
