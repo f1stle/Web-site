@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><title>Чат</title></head>
+<body>
+<h2>Добро пожаловать, <%= user.username %></h2>
+<ul>
+<% users.forEach(u => { %>
+  <li><a href="/chat/<%= u.id %>"><%= u.username %></a></li>
+<% }) %>
+</ul>
+<a href="/logout">Выйти</a>
+</body>
+</html>

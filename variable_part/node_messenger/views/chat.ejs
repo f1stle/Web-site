@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Чат с <%= recipient.username %></title>
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    body { font-family: Arial; margin: 20px; }
+    #messages { list-style-type: none; padding: 0; }
+    #messages li { margin-bottom: 10px; }
+    #chatForm { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2>Чат с <%= recipient.username %></h2>
+  <ul id="messages">
+    <% messages.forEach(msg => { %>
+      <li><strong><%= msg.sender.username %>:</strong> <%= msg.content %></li>
+    <% }) %>
+  </ul>
+
+  <form id="chatForm">
+    <input id="msgInput" autocomplete="off" placeholder="Введите сообщение">
+    <button type="submit">Отправить</button>
+  </form>
+
+  <script>
+    const socket = io();
+    const userId = <%- JSON.stringify(user.id) %>;
+    const recipientId = <%- JSON.stringify(recipient.id) %>;
+
+    socket.emit('join', { userId, recipientId });
+
+    document.getElementById('chatForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = document.getElementById('msgInput');
+      const message = input.value.trim();
+      if (!message) return;
+
+      socket.emit('send_private_message', {
+        userId,
+        recipientId,
+        message
+      });
+
+      input.value = '';
+    });
+
+    socket.on('receive_private_message', (data) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<strong>${data.username}:</strong> ${data.content}`;
+      document.getElementById('messages').appendChild(li);
+    });
+  </script>
+</body>
+</html>
