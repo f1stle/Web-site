@@ -1,15 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Чат с <%= recipient.username %></title>
-  <script src="/socket.io/socket.io.js"></script>
-  <style>
-    body { font-family: Arial; margin: 20px; }
-    #messages { list-style-type: none; padding: 0; }
-    #messages li { margin-bottom: 10px; }
-    #chatForm { margin-top: 20px; }
-  </style>
-</head>
+  <head>
+    <title>Чат с <%= recipient.username %></title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
 <body>
   <h2>Чат с <%= recipient.username %></h2>
   <ul id="messages">
