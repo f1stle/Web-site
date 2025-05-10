@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Чат с <%= recipient.username %></title>
-    <script src="/socket.io/socket.io.js"></script>
-    <link rel="stylesheet" href="style.css">
-  </head>
+<head>
+  <title>Чат с <%= recipient.username %></title>
+  <script src="/socket.io/socket.io.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
 <body>
+  <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+
   <h2>Чат с <%= recipient.username %></h2>
   <ul id="messages">
     <% messages.forEach(msg => { %>
@@ -44,6 +46,18 @@
       const li = document.createElement('li');
       li.innerHTML = `<strong>${data.username}:</strong> ${data.content}`;
       document.getElementById('messages').appendChild(li);
+    });
+
+    function toggleTheme() {
+      const body = document.body;
+      body.classList.toggle('dark');
+      localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark');
+      }
     });
   </script>
 </body>

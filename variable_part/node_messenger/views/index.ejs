@@ -1,15 +1,32 @@
 <!DOCTYPE html>
+<html>
 <head>
   <title>Чат</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<h2>Добро пожаловать, <%= user.username %></h2>
-<ul>
-<% users.forEach(u => { %>
-  <li><a href="/chat/<%= u.id %>"><%= u.username %></a></li>
-<% }) %>
-</ul>
-<a href="/logout">Выйти</a>
+  <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+
+  <h2>Добро пожаловать, <%= user.username %></h2>
+  <ul>
+    <% users.forEach(u => { %>
+      <li><a href="/chat/<%= u.id %>"><%= u.username %></a></li>
+    <% }) %>
+  </ul>
+  <a href="/logout">Выйти</a>
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      body.classList.toggle('dark');
+      localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark');
+      }
+    });
+  </script>
 </body>
 </html>

@@ -2,14 +2,31 @@
 <html>
 <head>
   <title>Login</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
-<h2>Вход</h2>
-<form method="POST">
-  <input name="username" placeholder="Имя пользователя" required>
-  <input name="password" type="password" placeholder="Пароль" required>
-  <button>Войти</button>
-</form>
-<a href="/register">Регистрация</a>
+<body>
+  <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+
+  <h2>Вход</h2>
+  <form method="POST">
+    <input name="username" placeholder="Имя пользователя" required>
+    <input name="password" type="password" placeholder="Пароль" required>
+    <button>Войти</button>
+  </form>
+  <a href="/register">Регистрация</a>
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      body.classList.toggle('dark');
+      localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark');
+      }
+    });
+  </script>
 </body>
 </html>

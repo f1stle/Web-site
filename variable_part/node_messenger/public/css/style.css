@@ -1,0 +1,147 @@
+:root {
+    --bg-color: #f4f7f9;
+    --text-color: #000000;
+    --box-color: #ffffff;
+    --primary-color: #2196F3;
+    --secondary-color: #1976D2;
+    --message-bg: #e9f1f7;
+}
+
+body.dark {
+    --bg-color: #1f1f1f;
+    --text-color: #000000;
+    --box-color: #2a2a2a;
+    --primary-color: #90caf9;
+    --secondary-color: #64b5f6;
+    --message-bg: #333b44;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+form, ul li, #messages {
+    background-color: var(--box-color);
+    color: var(--text-color);
+    border: 1px solid #ccc;
+}
+
+button {
+    background-color: var(--primary-color);
+}
+
+button:hover {
+    background-color: var(--secondary-color);
+}
+
+.theme-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
+    padding: 4px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    width: auto;
+    font-weight: normal;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 20px;
+    color: #444;
+}
+
+form {
+    max-width: 400px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #1976D2;
+}
+
+a {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color: #2196F3;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+ul li {
+    padding: 10px;
+    background-color: #fff;
+    margin: 5px 0;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+#messages {
+    height: 300px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #e9f1f7;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+#chatForm {
+    display: flex;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#msgInput {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #aaa;
+    border-radius: 4px 0 0 4px;
+}
+
+#chatForm button {
+    border-radius: 0 4px 4px 0;
+}
