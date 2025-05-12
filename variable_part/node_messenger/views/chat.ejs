@@ -6,7 +6,12 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+  <div class="theme-switch">
+    <input type="checkbox" id="themeToggle">
+    <label for="themeToggle" class="toggle-label">
+      <span class="toggle-icon"></span>
+    </label>
+  </div>
 
   <h2>Чат с <%= recipient.username %></h2>
   <ul id="messages">
@@ -48,16 +53,19 @@
       document.getElementById('messages').appendChild(li);
     });
 
-    function toggleTheme() {
-      const body = document.body;
-      body.classList.toggle('dark');
-      localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
-    }
-
     window.addEventListener('DOMContentLoaded', () => {
+      const themeToggle = document.getElementById('themeToggle');
+      const body = document.body;
+
       if (localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark');
+        body.classList.add('dark');
+        themeToggle.checked = true;
       }
+
+      themeToggle.addEventListener('change', () => {
+        body.classList.toggle('dark');
+        localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+      });
     });
   </script>
 </body>

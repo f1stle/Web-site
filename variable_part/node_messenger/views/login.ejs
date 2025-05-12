@@ -5,27 +5,34 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
-
+  <div class="theme-switch">
+    <input type="checkbox" id="themeToggle">
+    <label for="themeToggle" class="toggle-label">
+      <span class="toggle-icon"></span>
+    </label>
+  </div>
   <h2>Вход</h2>
   <form method="POST">
-    <input name="username" placeholder="Имя пользователя" required>
-    <input name="password" type="password" placeholder="Пароль" required>
+    <input type="username" name="username" placeholder="Имя пользователя" required>
+    <input type="password" name="password" placeholder="Пароль" required>
     <button>Войти</button>
   </form>
   <a href="/register">Регистрация</a>
 
   <script>
-    function toggleTheme() {
-      const body = document.body;
-      body.classList.toggle('dark');
-      localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
-    }
-
     window.addEventListener('DOMContentLoaded', () => {
+      const themeToggle = document.getElementById('themeToggle');
+      const body = document.body;
+
       if (localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark');
+        body.classList.add('dark');
+        themeToggle.checked = true;
       }
+
+      themeToggle.addEventListener('change', () => {
+        body.classList.toggle('dark');
+        localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+      });
     });
   </script>
 </body>
