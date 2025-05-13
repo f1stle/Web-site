@@ -13,16 +13,34 @@ function requireLogin(req, res, next) {
     next();
 }
 
-// Главная (чат)
+// Главная (чат со списком пользователей и их последними сообщениями)
 router.get('/', requireLogin, async (req, res) => {
     const user = await User.findByPk(req.session.userId);
-    
     if (!user) {
-        return res.redirect('/login');  // Если пользователь не найден, перенаправляем на страницу входа
+        return res.redirect('/login');
     }
 
+    // Получаем список других пользователей
     const users = await User.findAll({ where: { id: { [Op.ne]: user.id } } });
-    res.render('index', { user, users });
+
+    // Собираем последние сообщения для каждого пользователя
+    const userMessages = {};
+
+    for (const u of users) {
+        const lastMsg = await Message.findOne({
+            where: {
+                [Op.or]: [
+                    { sender_id: user.id, recipient_id: u.id },
+                    { sender_id: u.id, recipient_id: user.id }
+                ]
+            },
+            order: [['createdAt', 'DESC']]
+        });
+
+        userMessages[u.id] = lastMsg ? lastMsg.content : 'Сообщений пока нет';
+    }
+
+    res.render('index', { user, users, userMessages });
 });
 
 // Регистрация

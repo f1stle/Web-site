@@ -113,6 +113,9 @@
     margin: 5px 0;
     border-radius: 4px;
     border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
   
   #messages {
@@ -240,3 +243,9 @@
     color: var(--text-color);
   }
   
+  .last-message {
+    font-size: 12px;
+    color: #888;
+    margin-top: 4px;
+    word-break: break-word;
+  }

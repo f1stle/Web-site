@@ -23,6 +23,9 @@
           <span class="status-text">Не в сети</span>
         </div>
         <a href="/chat/<%= u.id %>"><%= u.username %></a>
+        <div class="last-message">
+          <%= userMessages[u.id] %>
+        </div>
       </li>
     <% }) %>
   </ul>
@@ -42,7 +45,6 @@
         localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
       });
 
-      
       const socket = io();
       const currentUser = '<%= user.username %>';
       socket.emit('save_username', currentUser);
@@ -60,6 +62,21 @@
           } else {
             statusDot.classList.remove('online');
             statusText.textContent = 'Не в сети';
+          }
+        });
+      });
+
+      // Обновление последних сообщений в реальном времени
+      socket.on('update_last_message', (data) => {
+        const { senderUsername, recipientUsername, message } = data;
+        const userItems = document.querySelectorAll('.user-item');
+        userItems.forEach(item => {
+          const username = item.dataset.username;
+          if (username === senderUsername || username === recipientUsername) {
+            const lastMsgDiv = item.querySelector('.last-message');
+            if (lastMsgDiv) {
+              lastMsgDiv.textContent = message;
+            }
           }
         });
       });
