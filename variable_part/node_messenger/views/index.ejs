@@ -70,16 +70,19 @@
       socket.on('update_last_message', (data) => {
         const { senderUsername, recipientUsername, message } = data;
         const userItems = document.querySelectorAll('.user-item');
+        const currentUser = '<%= user.username %>';
+
         userItems.forEach(item => {
           const username = item.dataset.username;
           if (username === senderUsername || username === recipientUsername) {
             const lastMsgDiv = item.querySelector('.last-message');
             if (lastMsgDiv) {
-              lastMsgDiv.textContent = message;
-            }
-          }
-        });
-      });
+              const prefix = senderUsername === currentUser ? 'Вы: ' : senderUsername + ': ';
+              lastMsgDiv.textContent = prefix + message;
+      }
+    }
+  });
+});
     });
   </script>
 </body>

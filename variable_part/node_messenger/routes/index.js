@@ -37,15 +37,21 @@ router.get('/', requireLogin, async (req, res) => {
             order: [['createdAt', 'DESC']]
         });
 
-        userMessages[u.id] = lastMsg ? lastMsg.content : 'Сообщений пока нет';
+    if (lastMsg) {
+      const sender = await User.findByPk(lastMsg.sender_id);
+      const prefix = sender.username === user.username ? 'Вы: ' : sender.username + ': ';
+      userMessages[u.id] = prefix + lastMsg.content;
+    } else {
+      userMessages[u.id] = 'Сообщений пока нет';
     }
+  }
 
     res.render('index', { user, users, userMessages });
 });
 
 // Регистрация
 router.get('/register', (req, res) => {
-    res.render('register');
+  res.render('register');
 });
 
 router.post('/register', async (req, res) => {
