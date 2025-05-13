@@ -31,57 +31,57 @@
   </form>
 
   <script>
-    const socket = io();
-    const userId = <%- JSON.stringify(user.id) %>;
-    const recipientId = <%- JSON.stringify(recipient.id) %>;
-    const currentUser = '<%= user.username %>';
-    const recipientUsername = '<%= recipient.username %>';
+    window.addEventListener('DOMContentLoaded', () => {
+      const socket = io();
+      const userId = <%- JSON.stringify(user.id) %>;
+      const recipientId = <%- JSON.stringify(recipient.id) %>;
+      const currentUser = '<%= user.username %>';
+      const recipientUsername = '<%= recipient.username %>';
 
-    // Присоединяемся к комнате
-    socket.emit('join', { userId, recipientId });
+      // Сохраняем своё имя для онлайн-статуса
+      socket.emit('save_username', currentUser);
 
-    // Сохраняем своё имя для статуса
-    socket.emit('save_username', currentUser);
+      // Присоединяемся к комнате
+      socket.emit('join', { userId, recipientId });
 
-    // Отправка сообщения
-    document.getElementById('chatForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const input = document.getElementById('msgInput');
-      const message = input.value.trim();
-      if (!message) return;
+      // Отправка сообщения
+      document.getElementById('chatForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const input = document.getElementById('msgInput');
+        const message = input.value.trim();
+        if (!message) return;
 
-      socket.emit('send_private_message', {
-        userId,
-        recipientId,
-        message
+        socket.emit('send_private_message', {
+          userId,
+          recipientId,
+          message
+        });
+
+        input.value = '';
       });
 
-      input.value = '';
-    });
+      // Приём сообщения
+      socket.on('receive_private_message', (data) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${data.username}:</strong> ${data.content}`;
+        document.getElementById('messages').appendChild(li);
+      });
 
-    // Приём сообщения
-    socket.on('receive_private_message', (data) => {
-      const li = document.createElement('li');
-      li.innerHTML = `<strong>${data.username}:</strong> ${data.content}`;
-      document.getElementById('messages').appendChild(li);
-    });
+      // Обновление онлайн-статуса собеседника
+      socket.on('update_user_status', (onlineList) => {
+        const statusDot = document.getElementById('recipientStatus');
+        const statusText = document.getElementById('recipientStatusText');
 
-    // Получаем обновление статусов онлайн-юзеров
-    socket.on('update_user_status', (onlineList) => {
-      const statusDot = document.getElementById('recipientStatus');
-      const statusText = document.getElementById('recipientStatusText');
+        if (onlineList.includes(recipientUsername)) {
+          statusDot.classList.add('online');
+          statusText.textContent = 'В сети';
+        } else {
+          statusDot.classList.remove('online');
+          statusText.textContent = 'Не в сети';
+        }
+      });
 
-      if (onlineList.includes(recipientUsername)) {
-        statusDot.classList.add('online');
-        statusText.textContent = 'В сети';
-      } else {
-        statusDot.classList.remove('online');
-        statusText.textContent = 'Не в сети';
-      }
-    });
-
-    // Тема
-    window.addEventListener('DOMContentLoaded', () => {
+      // Тема
       const themeToggle = document.getElementById('themeToggle');
       const body = document.body;
 

@@ -12,16 +12,16 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Хранилище онлайн-пользователей (имена)
+// Хранилище онлайн-пользователей
 const onlineUsers = new Set();
 
 // Настройки
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-    secret: 'your_secret_key',
-    resave: false,
-    saveUninitialized: false
+  secret: 'your_secret_key',
+  resave: false,
+  saveUninitialized: false
 }));
 
 // EJS
@@ -33,29 +33,35 @@ app.use('/', routes);
 
 // Сокеты
 io.on('connection', (socket) => {
-    console.log('Пользователь подключился');
+  console.log('Пользователь подключился');
 
-    // Сохраняем имя пользователя в сокете
-    socket.on('save_username', (username) => {
-        socket.username = username;
-        onlineUsers.add(username);
-        io.emit('update_user_status', Array.from(onlineUsers));
-    });
+  // Сохраняем имя пользователя в сокете
+  socket.on('save_username', (username) => {
+    if (!username) return;
 
-    // При отключении удаляем из списка
-    socket.on('disconnect', () => {
-        if (socket.username) {
-            onlineUsers.delete(socket.username);
-            io.emit('update_user_status', Array.from(onlineUsers));
-        }
-        console.log('Пользователь отключился');
-    });
+    socket.username = username;
+    onlineUsers.add(username);
 
-    // Проброс обработчика
-    socketHandler(io, socket);
+    console.log(`Пользователь вошёл: ${username}`);
+    io.emit('update_user_status', Array.from(onlineUsers));
+  });
+
+  // При отключении удаляем из списка
+  socket.on('disconnect', () => {
+    if (socket.username) {
+      onlineUsers.delete(socket.username);
+      console.log(`Пользователь вышел: ${socket.username}`);
+      io.emit('update_user_status', Array.from(onlineUsers));
+    } else {
+      console.log('Аноним отключился');
+    }
+  });
+
+  // Проброс обработчика
+  socketHandler(io, socket);
 });
 
 // Запуск
 sequelize.sync().then(() => {
-    server.listen(3000, () => console.log('Server running on http://localhost:3000'));
+  server.listen(3000, () => console.log('Server running on http://localhost:3000'));
 });

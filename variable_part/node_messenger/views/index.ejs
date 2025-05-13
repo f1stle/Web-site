@@ -30,30 +30,6 @@
   <a href="/logout">Выйти</a>
 
   <script>
-    const socket = io();
-    const currentUser = '<%= user.username %>';
-
-    // Отправляем серверу свое имя при подключении
-    socket.emit('save_username', currentUser);
-
-    // Обновляем онлайн-статусы
-    socket.on('update_user_status', (onlineList) => {
-      const userItems = document.querySelectorAll('.user-item');
-      userItems.forEach(item => {
-        const username = item.dataset.username;
-        const statusDot = item.querySelector('.status-dot');
-        const statusText = item.querySelector('.status-text');
-        if (onlineList.includes(username)) {
-          statusDot.classList.add('online');
-          statusText.textContent = 'В сети';
-        } else {
-          statusDot.classList.remove('online');
-          statusText.textContent = 'Не в сети';
-        }
-      });
-    });
-
-    // Тема
     window.addEventListener('DOMContentLoaded', () => {
       const themeToggle = document.getElementById('themeToggle');
       const body = document.body;
@@ -64,6 +40,28 @@
       themeToggle.addEventListener('change', () => {
         body.classList.toggle('dark');
         localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+      });
+
+      
+      const socket = io();
+      const currentUser = '<%= user.username %>';
+      socket.emit('save_username', currentUser);
+
+      // Обновляем онлайн-статусы в списке пользователей
+      socket.on('update_user_status', (onlineList) => {
+        const userItems = document.querySelectorAll('.user-item');
+        userItems.forEach(item => {
+          const username = item.dataset.username;
+          const statusDot = item.querySelector('.status-dot');
+          const statusText = item.querySelector('.status-text');
+          if (onlineList.includes(username)) {
+            statusDot.classList.add('online');
+            statusText.textContent = 'В сети';
+          } else {
+            statusDot.classList.remove('online');
+            statusText.textContent = 'Не в сети';
+          }
+        });
       });
     });
   </script>
