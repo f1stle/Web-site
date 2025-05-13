@@ -212,3 +212,31 @@
   #themeToggle:checked + .toggle-label .toggle-icon {
     transform: translateX(30px);
   }
+  
+  status-block {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 5px;
+  }
+  
+  .status-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 1.5px solid #aaa;
+    border-radius: 50%;
+    background-color: transparent;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  .status-dot.online {
+    background-color: #00e676;
+    border-color: #00e676;
+  }
+  
+  .status-text {
+    font-size: 12px;
+    color: var(--text-color);
+  }
+  

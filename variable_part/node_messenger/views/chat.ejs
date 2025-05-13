@@ -13,7 +13,12 @@
     </label>
   </div>
 
-  <h2>Чат с <%= recipient.username %></h2>
+  <h2>
+    <span class="status-dot" id="recipientStatus"></span>
+    <span id="recipientStatusText" class="status-text">Не в сети</span><br>
+    Чат с <%= recipient.username %>
+  </h2>
+
   <ul id="messages">
     <% messages.forEach(msg => { %>
       <li><strong><%= msg.sender.username %>:</strong> <%= msg.content %></li>
@@ -29,9 +34,16 @@
     const socket = io();
     const userId = <%- JSON.stringify(user.id) %>;
     const recipientId = <%- JSON.stringify(recipient.id) %>;
+    const currentUser = '<%= user.username %>';
+    const recipientUsername = '<%= recipient.username %>';
 
+    // Присоединяемся к комнате
     socket.emit('join', { userId, recipientId });
 
+    // Сохраняем своё имя для статуса
+    socket.emit('save_username', currentUser);
+
+    // Отправка сообщения
     document.getElementById('chatForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const input = document.getElementById('msgInput');
@@ -47,12 +59,28 @@
       input.value = '';
     });
 
+    // Приём сообщения
     socket.on('receive_private_message', (data) => {
       const li = document.createElement('li');
       li.innerHTML = `<strong>${data.username}:</strong> ${data.content}`;
       document.getElementById('messages').appendChild(li);
     });
 
+    // Получаем обновление статусов онлайн-юзеров
+    socket.on('update_user_status', (onlineList) => {
+      const statusDot = document.getElementById('recipientStatus');
+      const statusText = document.getElementById('recipientStatusText');
+
+      if (onlineList.includes(recipientUsername)) {
+        statusDot.classList.add('online');
+        statusText.textContent = 'В сети';
+      } else {
+        statusDot.classList.remove('online');
+        statusText.textContent = 'Не в сети';
+      }
+    });
+
+    // Тема
     window.addEventListener('DOMContentLoaded', () => {
       const themeToggle = document.getElementById('themeToggle');
       const body = document.body;

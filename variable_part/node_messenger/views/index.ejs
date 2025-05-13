@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Чат</title>
+  <script src="/socket.io/socket.io.js"></script>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -13,14 +14,46 @@
   </div>
 
   <h2>Добро пожаловать, <%= user.username %></h2>
-  <ul>
+
+  <ul id="userList">
     <% users.forEach(u => { %>
-      <li><a href="/chat/<%= u.id %>"><%= u.username %></a></li>
+      <li class="user-item" data-username="<%= u.username %>">
+        <div class="status-block">
+          <span class="status-dot"></span>
+          <span class="status-text">Не в сети</span>
+        </div>
+        <a href="/chat/<%= u.id %>"><%= u.username %></a>
+      </li>
     <% }) %>
   </ul>
+
   <a href="/logout">Выйти</a>
 
   <script>
+    const socket = io();
+    const currentUser = '<%= user.username %>';
+
+    // Отправляем серверу свое имя при подключении
+    socket.emit('save_username', currentUser);
+
+    // Обновляем онлайн-статусы
+    socket.on('update_user_status', (onlineList) => {
+      const userItems = document.querySelectorAll('.user-item');
+      userItems.forEach(item => {
+        const username = item.dataset.username;
+        const statusDot = item.querySelector('.status-dot');
+        const statusText = item.querySelector('.status-text');
+        if (onlineList.includes(username)) {
+          statusDot.classList.add('online');
+          statusText.textContent = 'В сети';
+        } else {
+          statusDot.classList.remove('online');
+          statusText.textContent = 'Не в сети';
+        }
+      });
+    });
+
+    // Тема
     window.addEventListener('DOMContentLoaded', () => {
       const themeToggle = document.getElementById('themeToggle');
       const body = document.body;

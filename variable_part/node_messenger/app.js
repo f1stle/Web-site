@@ -12,6 +12,9 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+// Хранилище онлайн-пользователей (имена)
+const onlineUsers = new Set();
+
 // Настройки
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -29,7 +32,28 @@ app.set('views', path.join(__dirname, 'views'));
 app.use('/', routes);
 
 // Сокеты
-io.on('connection', (socket) => socketHandler(io, socket));
+io.on('connection', (socket) => {
+    console.log('Пользователь подключился');
+
+    // Сохраняем имя пользователя в сокете
+    socket.on('save_username', (username) => {
+        socket.username = username;
+        onlineUsers.add(username);
+        io.emit('update_user_status', Array.from(onlineUsers));
+    });
+
+    // При отключении удаляем из списка
+    socket.on('disconnect', () => {
+        if (socket.username) {
+            onlineUsers.delete(socket.username);
+            io.emit('update_user_status', Array.from(onlineUsers));
+        }
+        console.log('Пользователь отключился');
+    });
+
+    // Проброс обработчика
+    socketHandler(io, socket);
+});
 
 // Запуск
 sequelize.sync().then(() => {
